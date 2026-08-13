@@ -1,0 +1,32 @@
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    container_name: turf_backend
+
+    env_file:
+      - ./backend/.env
+
+    ports:
+      - "127.0.0.1:8000:8000"
+
+    volumes:
+      - ./backend/media:/app/media
+
+    restart: unless-stopped
+
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: turf_frontend
+
+    ports:
+      - "127.0.0.1:3000:80"
+
+    restart: unless-stopped
