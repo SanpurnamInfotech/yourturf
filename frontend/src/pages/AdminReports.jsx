@@ -933,7 +933,7 @@ function AdminReports() {
 
                   window.open(
 
-`http://127.0.0.1:8000/api/export-report/?from_date=${fromDate}&to_date=${toDate}`,
+`${import.meta.env.VITE_API_URL}/export-report/?from_date=${fromDate}&to_date=${toDate}`,
 
 "_blank"
 

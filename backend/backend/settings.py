@@ -31,11 +31,15 @@ DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 
 ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
-    if host.strip()
+    "yourturf.yourhrms.in",
+    "localhost",
+    "127.0.0.1",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://yourturf.yourhrms.in",
+    "http://yourturf.yourhrms.in",
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -143,6 +147,9 @@ STATIC_URL = os.getenv("STATIC_URL", "/static/")
 
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"

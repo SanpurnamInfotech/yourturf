@@ -1,20 +1,25 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL:
-    "http://127.0.0.1:8000/api/",
+  baseURL: import.meta.env.VITE_API_URL || "/api/",
 });
 
 API.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access");
 
-    if (token && token !== "undefined" && token !== "null" && token.trim() !== "") {
+    if (
+      token &&
+      token !== "undefined" &&
+      token !== "null" &&
+      token.trim() !== ""
+    ) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
-  }
+  },
+  (error) => Promise.reject(error)
 );
 
 API.interceptors.response.use(
@@ -23,6 +28,7 @@ API.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       localStorage.removeItem("access");
     }
+
     return Promise.reject(error);
   }
 );
