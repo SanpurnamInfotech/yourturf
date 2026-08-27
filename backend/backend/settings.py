@@ -30,6 +30,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 
+# Django Admin custom URL path
+DJANGO_ADMIN_PATH = os.getenv("DJANGO_ADMIN_PATH", "django-admin/")
+
 ALLOWED_HOSTS = [
     "yourturf.yourhrms.in",
     "localhost",

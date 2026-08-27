@@ -1,0 +1,83 @@
+# Host Nginx configuration for yourturf.yourhrms.in
+# Place or copy this to /etc/nginx/sites-available/yourturf.yourhrms.in
+#
+# Goal:
+#   /admin/*          → React SPA (frontend container :3010)
+#   /django-admin/*   → Django Admin (backend container :8010)
+#   /api/*            → Django API (backend container :8010)
+#   /media/, /static/ → backend files (:8010)
+#   everything else   → React SPA (:3010)
+
+upstream yourturf_frontend {
+    server 127.0.0.1:3010;
+}
+
+upstream yourturf_backend {
+    server 127.0.0.1:8010;
+}
+
+server {
+    server_name yourturf.yourhrms.in;
+
+    client_max_body_size 50M;
+
+    # Django static files
+    location /static/ {
+        alias /var/www/Production/yourturf/yourturf/backend/staticfiles/;
+    }
+
+    # Django media/uploads
+    location /media/ {
+        alias /var/www/Production/yourturf/yourturf/backend/media/;
+    }
+
+    # Django REST API
+    location /api/ {
+        proxy_pass http://127.0.0.1:8010;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Django built-in Admin UI (NOT the React /admin app)
+    location /django-admin/ {
+        proxy_pass http://127.0.0.1:8010;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # React SPA — includes /admin, /book, and all client routes
+    location / {
+        proxy_pass http://127.0.0.1:3010;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    listen [::]:443 ssl ipv6only=on;
+    listen 443 ssl;
+
+    ssl_certificate /etc/letsencrypt/live/yourturf.yourhrms.in/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/yourturf.yourhrms.in/privkey.pem;
+
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+
+server {
+    if ($host = yourturf.yourhrms.in) {
+        return 301 https://$host$request_uri;
+    }
+
+    listen 80;
+    listen [::]:80;
+    server_name yourturf.yourhrms.in;
+    return 404;
+}
