@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Turf, TurfImage
+from .models import Turf, TurfImage, TurfClosure
 
 
 class TurfSerializer(serializers.ModelSerializer):
@@ -96,3 +96,23 @@ class TurfImageUploadSerializer(
     class Meta:
         model = TurfImage
         fields = ["image"]
+
+
+class TurfClosureSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TurfClosure
+        fields = [
+            "id",
+            "turf",
+            "date",
+            "start_time",
+            "end_time",
+            "is_full_day",
+            "reason",
+            "created_at",
+        ]
+        read_only_fields = [
+            "id",
+            "created_at",
+        ]

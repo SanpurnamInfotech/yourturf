@@ -10,10 +10,15 @@ from django.shortcuts import get_object_or_404
 
 class TurfAPIView(APIView):
 
-    parser_classes = [
+    class TurfAPIView(APIView):
+
+     parser_classes = [
         MultiPartParser,
         FormParser,
     ]
+
+    def get(self, request):
+        ...
 
     def get(self, request):
 
@@ -23,8 +28,8 @@ class TurfAPIView(APIView):
             turf,
             context={
                 "request": request
-            }
-        )
+        }
+   )
 
         return Response(serializer.data)
 
@@ -120,4 +125,57 @@ class TurfImageDeleteAPIView(APIView):
 
         return Response({
             "message": "Image Deleted Successfully"
+        })
+
+
+class TurfClosureAPIView(APIView):
+
+    def get(self, request):
+
+        closures = TurfClosure.objects.all()
+
+        serializer = TurfClosureSerializer(
+            closures,
+            many=True
+        )
+
+        return Response(
+            serializer.data
+        )
+
+    def post(self, request):
+
+        serializer = TurfClosureSerializer(
+            data=request.data
+        )
+
+        if serializer.is_valid():
+
+            serializer.save()
+
+            return Response(
+                serializer.data,
+                status=201
+            )
+
+        return Response(
+            serializer.errors,
+            status=400
+        )
+
+
+class TurfClosureDeleteAPIView(APIView):
+
+    def delete(self, request, closure_id):
+
+        closure = get_object_or_404(
+            TurfClosure,
+            id=closure_id
+        )
+
+        closure.delete()
+
+        return Response({
+            "message":
+            "Closure Deleted Successfully"
         })

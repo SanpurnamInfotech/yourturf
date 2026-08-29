@@ -9,6 +9,7 @@ import Gallery from "../components/Gallery";
 import Pricing from "../components/Pricing";
 import ContactCTA from "../components/ContactCTA";
 import Footer from "../components/Footer";
+import Announcement from "../components/Announcement";
 
 function Home() {
 
@@ -39,6 +40,8 @@ function Home() {
   return (
   <>
     <Navbar turf={turf} />
+
+    <Announcement />
 
     <Hero turf={turf} />
 

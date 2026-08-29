@@ -27,4 +27,16 @@ urlpatterns = [
         name='delete-image'
     ),
 
+    path(
+    'closures/',
+    TurfClosureAPIView.as_view(),
+    name='closures'
+    ),
+
+    path(
+    'closures/<int:closure_id>/',
+    TurfClosureDeleteAPIView.as_view(),
+    name='delete-closure'
+    ),
+
 ]

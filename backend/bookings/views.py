@@ -21,6 +21,8 @@ from reportlab.platypus import (SimpleDocTemplate,Table,TableStyle,Paragraph,Spa
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 
+from turf.models import Turf, TurfClosure
+
 
 
 class AvailableSlotsAPIView(APIView):
@@ -35,14 +37,25 @@ class AvailableSlotsAPIView(APIView):
                 status=400
             )
 
-        booking_date = datetime.strptime(
-            booking_date,
-            "%Y-%m-%d"
-        ).date()
+        try:
+            booking_date = datetime.strptime(
+                booking_date,
+                "%Y-%m-%d"
+            ).date()
+
+        except ValueError:
+
+            return Response(
+                {"error": "Invalid date format."},
+                status=400
+            )
 
         today = timezone.now().date()
 
-        # Past date
+        # --------------------------------
+        # PAST DATE
+        # --------------------------------
+
         if booking_date < today:
 
             return Response({
@@ -51,58 +64,214 @@ class AvailableSlotsAPIView(APIView):
                 "expired_slots": []
             })
 
-        # Actually booked slots
+
+        # --------------------------------
+        # GET CURRENT TURF
+        # --------------------------------
+
+        turf = Turf.objects.first()
+
+
+        # --------------------------------
+        # CHECK FULL DAY CLOSURE
+        # --------------------------------
+
+        full_day_closure = TurfClosure.objects.filter(
+            turf=turf,
+            date=booking_date,
+            is_full_day=True
+        ).first()
+
+
+        # --------------------------------
+        # ACTUALLY BOOKED SLOTS
+        # --------------------------------
+
         booked_slot_ids = BookingSlot.objects.filter(
+
             booking__booking_date=booking_date,
-            booking__status__in=["Confirmed", "Completed"]
+
+            booking__status__in=[
+                "Confirmed",
+                "Completed"
+            ]
+
         ).values_list(
             "slot_id",
             flat=True
         )
 
+
         booked_slots = Slot.objects.filter(
             id__in=booked_slot_ids
         )
 
-        # Initially all non-booked slots are available
+
+        # --------------------------------
+        # ALL NON-BOOKED SLOTS
+        # --------------------------------
+
         available_slots = Slot.objects.exclude(
             id__in=booked_slot_ids
         )
 
+
+        # --------------------------------
+        # FULL DAY CLOSED
+        # --------------------------------
+
+        if full_day_closure:
+
+            return Response({
+
+                "available_slots": [],
+
+                "booked_slots": SlotSerializer(
+                    booked_slots,
+                    many=True
+                ).data,
+
+                "expired_slots": [],
+
+                "closed_slots": SlotSerializer(
+                    available_slots,
+                    many=True
+                ).data,
+
+                "closure": {
+                    "type": "full_day",
+                    "reason":
+                        full_day_closure.reason
+                }
+
+            })
+
+
+        # --------------------------------
+        # SPECIFIC HOUR CLOSURES
+        # --------------------------------
+
+        closures = TurfClosure.objects.filter(
+            turf=turf,
+            date=booking_date,
+            is_full_day=False
+        )
+
+
+        closed_slot_ids = []
+
+
+        for slot in available_slots:
+
+            for closure in closures:
+
+                if not closure.start_time or not closure.end_time:
+                    continue
+
+
+                slot_start = slot.start_time
+
+                slot_end = slot.end_time
+
+
+                # --------------------------------
+                # NORMAL SLOT
+                # --------------------------------
+
+                if slot_end > slot_start:
+
+                    overlaps = (
+                        slot_start <
+                        closure.end_time
+                        and
+                        slot_end >
+                        closure.start_time
+                    )
+
+
+                # --------------------------------
+                # SLOT CROSSES MIDNIGHT
+                # --------------------------------
+
+                else:
+
+                    # Slot is something like:
+                    # 11 PM → 1 AM
+
+                    overlaps = (
+                        slot_start <
+                        closure.end_time
+                        or
+                        slot_end >
+                        closure.start_time
+                    )
+
+
+                if overlaps:
+
+                    closed_slot_ids.append(
+                        slot.id
+                    )
+
+                    break
+
+
+        # --------------------------------
+        # REMOVE CLOSED SLOTS
+        # --------------------------------
+
+        available_slots = available_slots.exclude(
+            id__in=closed_slot_ids
+        )
+
+
+        # --------------------------------
+        # EXPIRED SLOTS
+        # --------------------------------
+
         expired_slots = []
 
-        # For TODAY only
+
         if booking_date == today:
 
             current_datetime = timezone.now()
 
-            expired_slots = []
 
             for slot in available_slots:
 
                 slot_start = datetime.combine(
                     booking_date,
                     slot.start_time
-               )
+                )
 
                 slot_end = datetime.combine(
                     booking_date,
                     slot.end_time
-               )
+                )
+
 
                 # Slot crosses midnight
+
                 if slot.end_time <= slot.start_time:
 
                     slot_end += timedelta(days=1)
 
+
                 if current_datetime >= slot_end:
 
-                    expired_slots.append(slot.id)
+                    expired_slots.append(
+                        slot.id
+                    )
 
-            # Remove expired slots from available slots
+
             available_slots = available_slots.exclude(
                 id__in=expired_slots
             )
+
+
+        # --------------------------------
+        # RESPONSE
+        # --------------------------------
 
         return Response({
 
@@ -119,6 +288,13 @@ class AvailableSlotsAPIView(APIView):
             "expired_slots": SlotSerializer(
                 Slot.objects.filter(
                     id__in=expired_slots
+                ),
+                many=True
+            ).data,
+
+            "closed_slots": SlotSerializer(
+                Slot.objects.filter(
+                    id__in=closed_slot_ids
                 ),
                 many=True
             ).data
@@ -205,6 +381,110 @@ class CreateBookingAPIView(APIView):
         },
         status=400
     )
+
+                # --------------------------------
+        # CHECK NEW TURF CLOSURES
+        # --------------------------------
+
+        turf = Turf.objects.first()
+
+
+        # Full day closure
+
+        full_day_closure = TurfClosure.objects.filter(
+            turf=turf,
+            date=booking_date,
+            is_full_day=True
+        ).first()
+
+
+        if full_day_closure:
+
+            return Response(
+                {
+                    "error":
+                        "Turf is closed for the selected date.",
+                    "reason":
+                        full_day_closure.reason
+                },
+                status=400
+            )
+
+
+        # Specific-hour closures
+
+        closures = TurfClosure.objects.filter(
+            turf=turf,
+            date=booking_date,
+            is_full_day=False
+        )
+
+
+        for slot_id in slot_ids:
+
+            slot = Slot.objects.filter(
+                id=slot_id
+            ).first()
+
+
+            if not slot:
+
+                return Response(
+                    {
+                        "error":
+                            f"Slot {slot_id} does not exist."
+                    },
+                    status=400
+                )
+
+
+            for closure in closures:
+
+                if (
+                    not closure.start_time
+                    or
+                    not closure.end_time
+                ):
+                    continue
+
+
+                # Normal slot
+
+                if slot.end_time > slot.start_time:
+
+                    overlaps = (
+                        slot.start_time <
+                        closure.end_time
+                        and
+                        slot.end_time >
+                        closure.start_time
+                    )
+
+
+                # Slot crosses midnight
+
+                else:
+
+                    overlaps = (
+                        slot.start_time <
+                        closure.end_time
+                        or
+                        slot.end_time >
+                        closure.start_time
+                    )
+
+
+                if overlaps:
+
+                    return Response(
+                        {
+                            "error":
+                                "Selected slot is closed.",
+                            "reason":
+                                closure.reason
+                        },
+                        status=400
+                    )
 
         for slot_id in slot_ids:
 
@@ -380,22 +660,180 @@ class CalendarAPIView(APIView):
 
         booking_date = request.GET.get("date")
 
+        if not booking_date:
+            return Response(
+                {
+                    "error": "Date is required."
+                },
+                status=400
+            )
+
+        try:
+
+            booking_date = datetime.strptime(
+                booking_date,
+                "%Y-%m-%d"
+            ).date()
+
+        except ValueError:
+
+            return Response(
+                {
+                    "error": "Invalid date format."
+                },
+                status=400
+            )
+
+
+        # --------------------------------
+        # GET CURRENT TURF
+        # --------------------------------
+
+        turf = Turf.objects.first()
+
+
+        # --------------------------------
+        # BOOKED SLOTS
+        # --------------------------------
+
         booked_slot_ids = BookingSlot.objects.filter(
-            booking__booking_date=booking_date
+
+            booking__booking_date=booking_date,
+
+            booking__status__in=[
+                "Confirmed",
+                "Completed"
+            ]
+
         ).values_list(
             "slot_id",
             flat=True
         )
 
+
         booked_slots = Slot.objects.filter(
             id__in=booked_slot_ids
         )
 
-        available_slots = Slot.objects.exclude(
-            id__in=booked_slot_ids
-        )
+
+        # --------------------------------
+        # ALL SLOTS
+        # --------------------------------
+
+        all_slots = Slot.objects.all()
+
+
+        # --------------------------------
+        # FULL DAY CLOSURE
+        # --------------------------------
+
+        full_day_closure = TurfClosure.objects.filter(
+            turf=turf,
+            date=booking_date,
+            is_full_day=True
+        ).first()
+
+
+        if full_day_closure:
+
+            closed_slots = all_slots.exclude(
+                id__in=booked_slot_ids
+            )
+
+            available_slots = Slot.objects.none()
+
+        else:
+
+            # --------------------------------
+            # SPECIFIC-HOUR CLOSURES
+            # --------------------------------
+
+            closures = TurfClosure.objects.filter(
+                turf=turf,
+                date=booking_date,
+                is_full_day=False
+            )
+
+
+            closed_slot_ids = []
+
+
+            for slot in all_slots:
+
+                # Don't mark already booked slots
+                # as closed.
+
+                if slot.id in booked_slot_ids:
+                    continue
+
+
+                for closure in closures:
+
+                    if (
+                        not closure.start_time
+                        or
+                        not closure.end_time
+                    ):
+                        continue
+
+
+                    # Normal slot
+
+                    if slot.end_time > slot.start_time:
+
+                        overlaps = (
+                            slot.start_time <
+                            closure.end_time
+                            and
+                            slot.end_time >
+                            closure.start_time
+                        )
+
+
+                    # Slot crosses midnight
+
+                    else:
+
+                        overlaps = (
+                            slot.start_time <
+                            closure.end_time
+                            or
+                            slot.end_time >
+                            closure.start_time
+                        )
+
+
+                    if overlaps:
+
+                        closed_slot_ids.append(
+                            slot.id
+                        )
+
+                        break
+
+
+            # --------------------------------
+            # CLOSED / AVAILABLE
+            # --------------------------------
+
+            closed_slots = Slot.objects.filter(
+                id__in=closed_slot_ids
+            )
+
+
+            available_slots = all_slots.exclude(
+                id__in=booked_slot_ids
+            ).exclude(
+                id__in=closed_slot_ids
+            )
+
+
+        # --------------------------------
+        # RESPONSE
+        # --------------------------------
 
         return Response({
+
             "booked_slots": SlotListSerializer(
                 booked_slots,
                 many=True
@@ -404,8 +842,24 @@ class CalendarAPIView(APIView):
             "available_slots": SlotListSerializer(
                 available_slots,
                 many=True
-            ).data
-        })   
+            ).data,
+
+            "closed_slots": SlotListSerializer(
+                closed_slots,
+                many=True
+            ).data,
+
+            "closure": (
+                {
+                    "type": "full_day",
+                    "reason":
+                        full_day_closure.reason
+                }
+                if full_day_closure
+                else None
+            )
+
+        }) 
 
 
 class CancelBookingAPIView(APIView):
