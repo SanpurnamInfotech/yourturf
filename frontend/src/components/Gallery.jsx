@@ -70,7 +70,7 @@ function Gallery() {
             combined.push({
               id: `gallery-${item.id}`,
               image: item.image,
-              turf_name: item.turf_name || matchedTurf?.name || "Premium Turf",
+              turf_name: item.turf_name || matchedTurf?.name || "Premium",
               location: matchedTurf?.location || "Maharashtra",
             });
           }
