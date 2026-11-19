@@ -12,6 +12,7 @@ import {
 
 import API from "../services/api";
 import AdminLayout from "../components/AdminLayout";
+import { useTurf } from "../context/TurfContext";
 
 
 function AdminSettings() {
@@ -25,6 +26,22 @@ function AdminSettings() {
   ) {
     return <Navigate to="/admin-login" />;
   }
+
+
+  // ==========================================
+  // TURF SELECTION
+  // ==========================================
+
+  const { turfs, selectedTurfId } = useTurf();
+  const [settingsTurfId, setSettingsTurfId] = useState(selectedTurfId || "");
+
+  useEffect(() => {
+    if (selectedTurfId) {
+      setSettingsTurfId(selectedTurfId);
+    } else if (turfs.length > 0 && !settingsTurfId) {
+      setSettingsTurfId(turfs[0].id);
+    }
+  }, [selectedTurfId, turfs]);
 
 
   // ==========================================
@@ -98,8 +115,8 @@ function AdminSettings() {
 
       setLoading(true);
 
-      const response =
-        await API.get("settings/");
+      const url = settingsTurfId ? `settings/?turf_id=${settingsTurfId}` : "settings/";
+      const response = await API.get(url);
 
       setDayPrice(
         response.data.day_price
@@ -114,10 +131,6 @@ function AdminSettings() {
       console.log(
         "Failed to load settings:",
         error
-      );
-
-      alert(
-        "Unable to load settings."
       );
 
     } finally {
@@ -137,8 +150,8 @@ function AdminSettings() {
 
     try {
 
-      const response =
-        await API.get("closures/");
+      const url = settingsTurfId ? `closures/?turf_id=${settingsTurfId}` : "closures/";
+      const response = await API.get(url);
 
       setClosures(
         response.data
@@ -149,10 +162,6 @@ function AdminSettings() {
       console.log(
         "Failed to load closures:",
         error
-      );
-
-      alert(
-        "Unable to load closures."
       );
 
     }
@@ -391,14 +400,8 @@ function AdminSettings() {
       // ----------------------------------------
 
       const data = {
-
-        // Your project currently
-        // uses Turf ID 1
-
-        turf: 1,
-
+        turf: settingsTurfId || 1,
         date: closureDate,
-
         is_full_day:
           closureType ===
           "full_day",
@@ -612,11 +615,9 @@ function AdminSettings() {
       await API.put(
         "settings/",
         {
-          day_price:
-            dayPrice,
-
-          night_price:
-            nightPrice,
+          turf_id: settingsTurfId,
+          day_price: dayPrice,
+          night_price: nightPrice,
         }
       );
 
@@ -647,7 +648,7 @@ function AdminSettings() {
 
 
   // ==========================================
-  // LOAD DATA WHEN PAGE OPENS
+  // LOAD DATA WHEN PAGE OPENS OR TURF CHANGES
   // ==========================================
 
   useEffect(() => {
@@ -656,7 +657,7 @@ function AdminSettings() {
 
     loadClosures();
 
-  }, []);
+  }, [settingsTurfId]);
 
 
   // ==========================================
@@ -797,7 +798,7 @@ function AdminSettings() {
           HEADER
       ====================================== */}
 
-      <div className="mb-10">
+      <div className="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
         <div
           className="
@@ -832,7 +833,7 @@ function AdminSettings() {
               "
             >
 
-              Admin Settings
+              Pricing & Closures
 
             </h1>
 
@@ -844,13 +845,28 @@ function AdminSettings() {
               "
             >
 
-              Manage Turf Pricing and
-              Holiday / Closure Settings
+              Configure Day/Night rates and Full/Partial Day Closures per Venue
 
             </p>
 
           </div>
 
+        </div>
+
+        {/* Venue Selector */}
+        <div className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-2xl shadow-sm border border-gray-200">
+          <span className="text-xs font-bold text-gray-600">Select Venue:</span>
+          <select
+            value={settingsTurfId}
+            onChange={(e) => setSettingsTurfId(e.target.value)}
+            className="bg-gray-50 border border-gray-300 text-gray-900 px-3 py-1.5 rounded-xl text-xs font-semibold outline-none focus:border-green-600 cursor-pointer"
+          >
+            {turfs.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.name} ({t.location})
+              </option>
+            ))}
+          </select>
         </div>
 
       </div>

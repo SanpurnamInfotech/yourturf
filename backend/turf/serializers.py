@@ -68,10 +68,11 @@ class TurfSerializer(serializers.ModelSerializer):
 class TurfImageSerializer(serializers.ModelSerializer):
 
     image = serializers.SerializerMethodField()
+    turf_name = serializers.CharField(source="turf.name", read_only=True)
 
     class Meta:
         model = TurfImage
-        fields = ["id", "image", "uploaded_on"]
+        fields = ["id", "turf", "turf_name", "image", "uploaded_on"]
 
     def get_image(self, obj):
 
@@ -95,16 +96,19 @@ class TurfImageUploadSerializer(
 
     class Meta:
         model = TurfImage
-        fields = ["image"]
+        fields = ["turf", "image"]
 
 
 class TurfClosureSerializer(serializers.ModelSerializer):
+
+    turf_name = serializers.CharField(source="turf.name", read_only=True)
 
     class Meta:
         model = TurfClosure
         fields = [
             "id",
             "turf",
+            "turf_name",
             "date",
             "start_time",
             "end_time",

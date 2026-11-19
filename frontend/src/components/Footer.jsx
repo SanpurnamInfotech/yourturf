@@ -6,8 +6,14 @@ import {
     FaMapMarkerAlt,
     FaEnvelope,
   } from "react-icons/fa";
+import { useTurf } from "../context/TurfContext";
   
   function Footer({ turf }) {
+    const { websiteSettings } = useTurf();
+    const brandName = websiteSettings?.site_name || "YourTurf";
+    const phone = websiteSettings?.contact_phone || turf?.phone || "1234567890";
+    const email = websiteSettings?.contact_email || turf?.email || "support@yourturf.com";
+
     return (
       <footer className="bg-gray-950 text-white">
   
@@ -20,10 +26,7 @@ import {
             <div>
   
               <h2 className="text-3xl font-bold">
-                {turf?.name || "Dream Turf"}
-                <span className="text-green-500">
-                  {" "}Turf
-                </span>
+                {brandName}
               </h2>
   
               <p className="mt-5 text-gray-400 leading-7">
@@ -175,9 +178,12 @@ import {
                     className="text-green-500 mt-1"
                   />
   
-                  <span className="text-gray-400">
-                    {turf?.phone || "Contact Us"}
-                  </span>
+                  <a
+                    href={`tel:${phone}`}
+                    className="text-gray-400 hover:text-green-500 transition"
+                  >
+                    {phone}
+                  </a>
   
                 </div>
   
@@ -188,26 +194,26 @@ import {
                   />
   
                   <a
-                    href={`mailto:${turf?.email || ""}`}
+                    href={`mailto:${email}`}
                     className="text-gray-400 hover:text-green-500 transition"
                   >
-                    {turf?.email || "Email not available"}
+                    {email}
                   </a>
 
   
                 </div>
   
-                <div className="flex gap-3">
+                {/* <div className="flex gap-3">
   
                   <FaMapMarkerAlt
                     className="text-green-500 mt-1"
                   />
   
                   <span className="text-gray-400">
-                    {turf?.location || "Location not available"}
+                    Sangli
                   </span>
   
-                </div>
+                </div> */}
   
               </div>
   
@@ -227,7 +233,7 @@ import {
           text-gray-500
           "
         >
-          © 2026 {turf?.name || "Dream Turf"} Turf. All Rights Reserved.
+          © {new Date().getFullYear()} {brandName}. All Rights Reserved.
         </div>
   
       </footer>

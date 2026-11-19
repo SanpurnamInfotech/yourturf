@@ -9,32 +9,33 @@ import {
 
 import API from "../services/api";
 
-function Pricing() {
+function Pricing({ turf }) {
 
   const [settings, setSettings] = useState({
-    day_price: 800,
-    night_price: 1000,
+    day_price: turf?.day_price || 800,
+    night_price: turf?.night_price || 1000,
   });
 
- useEffect(() => {
-
-  const loadSettings = async () => {
-
-    try {
-
-      const response = await API.get("settings/");
-
-      setSettings(response.data);
-
-    } catch (error) {
-
-      console.log(error);
-
+  useEffect(() => {
+    if (turf?.day_price && turf?.night_price) {
+      setSettings({
+        day_price: turf.day_price,
+        night_price: turf.night_price,
+      });
+      return;
     }
 
-  };
+    const loadSettings = async () => {
+      try {
+        const url = turf?.id ? `settings/?turf_id=${turf.id}` : "settings/";
+        const response = await API.get(url);
+        setSettings(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  loadSettings();
+    loadSettings();
 
   const interval = setInterval(() => {
 

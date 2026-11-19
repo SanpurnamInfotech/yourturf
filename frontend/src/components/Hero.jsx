@@ -1,314 +1,81 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../services/api";
+import { useTurf } from "../context/TurfContext";
 
 function Hero({ turf }) {
-
   const navigate = useNavigate();
+  const { websiteSettings } = useTurf();
 
-  const [settings, setSettings] = useState({
-    day_price: 800,
-    night_price: 1000,
-  });
-
-  useEffect(() => {
-
-  const loadSettings = async () => {
-
-    try {
-
-      const response = await API.get("settings/");
-
-      setSettings(response.data);
-
-    } catch (error) {
-
-      console.log(error);
-
-    }
-
-  };
-
-  // Initial Load
-  loadSettings();
-
-  // Refresh every 30 seconds
-  const interval = setInterval(() => {
-
-    loadSettings();
-
-  }, 30000);
-
-  // Refresh when user comes back to the tab
-  const handleFocus = () => {
-
-    loadSettings();
-
-  };
-
-  window.addEventListener(
-    "focus",
-    handleFocus
-  );
-
-  return () => {
-
-    clearInterval(interval);
-
-    window.removeEventListener(
-      "focus",
-      handleFocus
-    );
-
-  };
-
-}, []);
+  const brandName = websiteSettings?.site_name || "YourTurf";
 
   return (
     <section
       id="home"
-      className="
-      relative
-      min-h-screen
-      flex
-      items-center
-      justify-center
-      bg-cover
-      bg-center
-      "
+      className="relative min-h-screen flex items-center justify-center bg-cover bg-center"
       style={{
-        backgroundImage:`url("${
+        backgroundImage: `url("${
+          websiteSettings?.hero_image ||
           turf?.main_image ||
           "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1600&q=80"
         }")`,
       }}
     >
-
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/70"></div>
 
       {/* Content */}
-      <div
-        className="
-        relative
-        z-10
-        max-w-7xl
-        mx-auto
-        px-6
-        text-center
-        text-white
-        "
-      >
-
-        <span
-          className="
-          inline-block
-          bg-green-500
-          px-4
-          py-2
-          rounded-full
-          text-sm
-          font-semibold
-          mb-6
-          "
-        >
-          Premium Cricket & Football Turf
+      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center text-white py-24">
+        <span className="inline-block bg-green-500 text-black px-4 py-2 rounded-full text-sm font-bold mb-6 tracking-wide shadow-md">
+          Premium Cricket & Football Venues
         </span>
 
-        <h1
-          className="
-          text-5xl
-          md:text-7xl
-          font-bold
-          leading-tight
-          "
-        >
-          {turf?.name || "Dream Turf"}
-          <span className="text-green-500">
-            {" "}
-            Turf
-          </span>
+        <h1 className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
+          {brandName}
         </h1>
 
-        <h2
-          className="
-          text-2xl
-          md:text-4xl
-          font-semibold
-          mt-4
-          "
-        >
+        <h2 className="text-2xl md:text-4xl font-semibold mt-4 text-green-400">
           Play. Compete. Win.
         </h2>
 
-        <p
-          className="
-          mt-6
-          max-w-2xl
-          mx-auto
-          text-lg
-          text-gray-200
-          "
-        >
-          Experience premium turf facilities with
-          flood lights, parking, clean washrooms,
-          drinking water, and seamless online
-          booking.
+        <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-200 leading-relaxed">
+          Discover top-tier sports turf grounds with floodlights, professional pitch surfaces,
+          parking, and instant online slot reservation.
         </p>
 
-        {/* Dynamic Prices */}
-
-        <div
-          className="
-          flex
-          flex-wrap
-          justify-center
-          gap-4
-          mt-8
-          "
-        >
-
-          <div
-            className="
-            bg-green-500
-            px-6
-            py-3
-            rounded-full
-            font-semibold
-            "
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+          <a
+            href="#turfs"
+            className="bg-green-500 hover:bg-green-600 text-black px-8 py-4 rounded-xl text-lg font-bold transition shadow-lg shadow-green-500/20 active:scale-95"
           >
-            ☀️ Day Slot ₹{settings.day_price}/hr
-          </div>
-
-          <div
-            className="
-            bg-gray-800
-            border
-            border-white
-            px-6
-            py-3
-            rounded-full
-            font-semibold
-            "
-          >
-            🌙 Night Slot ₹{settings.night_price}/hr
-          </div>
-
-        </div>
-
-        {/* Buttons */}
-
-        <div
-          className="
-          flex
-          flex-col
-          sm:flex-row
-          gap-4
-          justify-center
-          mt-10
-          "
-        >
+            Explore Venues
+          </a>
 
           <button
             onClick={() => navigate("/book")}
-            className="
-            bg-green-500
-            hover:bg-green-600
-            px-8
-            py-4
-            rounded-xl
-            text-lg
-            font-semibold
-            transition
-            "
+            className="border-2 border-white hover:bg-white hover:text-black px-8 py-4 rounded-xl text-lg font-semibold transition active:scale-95"
           >
-            Book Turf
+            Book Turf 
           </button>
-
-          <a
-            href="#gallery"
-            className="
-            border
-            border-white
-            hover:bg-white
-            hover:text-black
-            px-8
-            py-4
-            rounded-xl
-            text-lg
-            font-semibold
-            transition
-            "
-          >
-            View Gallery
-          </a>
-
         </div>
 
-        {/* Stats */}
-
-        <div
-          className="
-          mt-16
-          grid
-          grid-cols-1
-          md:grid-cols-3
-          gap-8
-          "
-        >
-
-          <div>
-
-            <h3
-              className="
-              text-3xl
-              font-bold
-              text-green-500
-              "
-            >
-              500+
-            </h3>
-
-            <p>Happy Players</p>
-
+        {/* Highlights / Stats */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="bg-black/40 backdrop-blur-md p-6 rounded-2xl border border-white/10">
+            <h3 className="text-3xl font-extrabold text-green-400">500+</h3>
+            <p className="text-gray-300 text-sm mt-1">Happy Players & Teams</p>
           </div>
 
-          <div>
-
-            <h3
-              className="
-              text-3xl
-              font-bold
-              text-green-500
-              "
-            >
-              24
-            </h3>
-
-            <p>Available Slots Daily</p>
-
+          <div className="bg-black/40 backdrop-blur-md p-6 rounded-2xl border border-white/10">
+            <h3 className="text-3xl font-extrabold text-green-400">Multiple</h3>
+            <p className="text-gray-300 text-sm mt-1">Cities & Verified Venues</p>
           </div>
 
-          <div>
-
-            <h3
-              className="
-              text-3xl
-              font-bold
-              text-green-500
-              "
-            >
-              100%
-            </h3>
-
-            <p>Online Booking</p>
-
+          <div className="bg-black/40 backdrop-blur-md p-6 rounded-2xl border border-white/10">
+            <h3 className="text-3xl font-extrabold text-green-400">100%</h3>
+            <p className="text-gray-300 text-sm mt-1">Instant Online Booking</p>
           </div>
-
         </div>
-
       </div>
-
     </section>
   );
 }

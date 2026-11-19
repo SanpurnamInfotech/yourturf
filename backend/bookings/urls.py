@@ -3,6 +3,11 @@ from .views import *
 
 urlpatterns = [
     path(
+        "bookable-turfs/",
+        AvailableTurfsAPIView.as_view(),
+        name="bookable-turfs",
+    ),
+    path(
         'slots/',
         AvailableSlotsAPIView.as_view(),
         name='available-slots'

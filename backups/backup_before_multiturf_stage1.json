@@ -1,0 +1,1296 @@
+[
+{
+  "model": "turf.turf",
+  "pk": 1,
+  "fields": {
+    "name": "Sanpurnam",
+    "description": "Premium Cricket & Football Turf",
+    "location": "Sangli, Maharashtra",
+    "phone": "9876543210",
+    "email": "sahilturf@gmail.com",
+    "main_image": "turf_main/turfhome_AVX1VQs.avif",
+    "about_image": "turf_about/turflanding_wTsyH3z.avif"
+  }
+},
+{
+  "model": "turf.turfimage",
+  "pk": 2,
+  "fields": {
+    "image": "turf_images/turf.webp",
+    "uploaded_on": "2026-06-23T12:51:10.415"
+  }
+},
+{
+  "model": "turf.turfimage",
+  "pk": 3,
+  "fields": {
+    "image": "turf_images/turf1.webp",
+    "uploaded_on": "2026-06-23T12:52:58.534"
+  }
+},
+{
+  "model": "turf.turfimage",
+  "pk": 12,
+  "fields": {
+    "image": "turf_images/turf2.jfif",
+    "uploaded_on": "2026-07-03T16:20:52.714"
+  }
+},
+{
+  "model": "turf.turfimage",
+  "pk": 13,
+  "fields": {
+    "image": "turf_images/turf3.webp",
+    "uploaded_on": "2026-07-03T16:23:04.807"
+  }
+},
+{
+  "model": "turf.turfimage",
+  "pk": 14,
+  "fields": {
+    "image": "turf_images/turf4.jpg",
+    "uploaded_on": "2026-07-03T16:25:28.474"
+  }
+},
+{
+  "model": "turf.turfimage",
+  "pk": 15,
+  "fields": {
+    "image": "turf_images/turf5.jpg",
+    "uploaded_on": "2026-07-03T16:49:03.016"
+  }
+},
+{
+  "model": "turf.turfimage",
+  "pk": 16,
+  "fields": {
+    "image": "turf_images/turf6.avif",
+    "uploaded_on": "2026-07-03T16:50:26.218"
+  }
+},
+{
+  "model": "turf.turfclosure",
+  "pk": 2,
+  "fields": {
+    "turf": 1,
+    "date": "2026-09-02",
+    "start_time": "18:00:00",
+    "end_time": "22:00:00",
+    "is_full_day": false,
+    "reason": "Private Match",
+    "created_at": "2026-08-28T11:43:37.548"
+  }
+},
+{
+  "model": "turf.turfclosure",
+  "pk": 4,
+  "fields": {
+    "turf": 1,
+    "date": "2026-09-01",
+    "start_time": "12:00:00",
+    "end_time": "23:00:00",
+    "is_full_day": false,
+    "reason": "",
+    "created_at": "2026-08-28T12:24:30.980"
+  }
+},
+{
+  "model": "turf.turfclosure",
+  "pk": 5,
+  "fields": {
+    "turf": 1,
+    "date": "2026-08-30",
+    "start_time": "02:00:00",
+    "end_time": "12:00:00",
+    "is_full_day": false,
+    "reason": "asach band ahe",
+    "created_at": "2026-08-28T15:43:39.665"
+  }
+},
+{
+  "model": "turf.turfclosure",
+  "pk": 7,
+  "fields": {
+    "turf": 1,
+    "date": "2026-09-13",
+    "start_time": null,
+    "end_time": null,
+    "is_full_day": true,
+    "reason": "",
+    "created_at": "2026-09-02T15:56:27.394"
+  }
+},
+{
+  "model": "turf.turfclosure",
+  "pk": 8,
+  "fields": {
+    "turf": 1,
+    "date": "2026-09-03",
+    "start_time": "09:00:00",
+    "end_time": "11:00:00",
+    "is_full_day": false,
+    "reason": "",
+    "created_at": "2026-09-02T16:02:41.801"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 1,
+  "fields": {
+    "start_time": "00:00:00",
+    "end_time": "01:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 2,
+  "fields": {
+    "start_time": "01:00:00",
+    "end_time": "02:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 3,
+  "fields": {
+    "start_time": "02:00:00",
+    "end_time": "03:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 4,
+  "fields": {
+    "start_time": "03:00:00",
+    "end_time": "04:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 5,
+  "fields": {
+    "start_time": "04:00:00",
+    "end_time": "05:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 6,
+  "fields": {
+    "start_time": "05:00:00",
+    "end_time": "06:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 7,
+  "fields": {
+    "start_time": "06:00:00",
+    "end_time": "07:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 8,
+  "fields": {
+    "start_time": "07:00:00",
+    "end_time": "08:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 9,
+  "fields": {
+    "start_time": "08:00:00",
+    "end_time": "09:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 10,
+  "fields": {
+    "start_time": "09:00:00",
+    "end_time": "10:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 11,
+  "fields": {
+    "start_time": "10:00:00",
+    "end_time": "11:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 12,
+  "fields": {
+    "start_time": "11:00:00",
+    "end_time": "12:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 13,
+  "fields": {
+    "start_time": "12:00:00",
+    "end_time": "13:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 14,
+  "fields": {
+    "start_time": "13:00:00",
+    "end_time": "14:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 15,
+  "fields": {
+    "start_time": "14:00:00",
+    "end_time": "15:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 16,
+  "fields": {
+    "start_time": "15:00:00",
+    "end_time": "16:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 17,
+  "fields": {
+    "start_time": "16:00:00",
+    "end_time": "17:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 18,
+  "fields": {
+    "start_time": "17:00:00",
+    "end_time": "18:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 19,
+  "fields": {
+    "start_time": "18:00:00",
+    "end_time": "19:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 20,
+  "fields": {
+    "start_time": "19:00:00",
+    "end_time": "20:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 21,
+  "fields": {
+    "start_time": "20:00:00",
+    "end_time": "21:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 22,
+  "fields": {
+    "start_time": "21:00:00",
+    "end_time": "22:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 23,
+  "fields": {
+    "start_time": "22:00:00",
+    "end_time": "23:00:00"
+  }
+},
+{
+  "model": "bookings.slot",
+  "pk": 24,
+  "fields": {
+    "start_time": "23:00:00",
+    "end_time": "00:00:00"
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 2,
+  "fields": {
+    "booking_code": "TBEC7C6E",
+    "customer_name": "demo1",
+    "mobile": "0987654321",
+    "email": "demo1@gmail.com",
+    "booking_date": "2026-06-27",
+    "total_amount": "3000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-23T12:17:31.531",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 3,
+  "fields": {
+    "booking_code": "TB8387D7",
+    "customer_name": "asd",
+    "mobile": "2345609876",
+    "email": "dae@gmail.com",
+    "booking_date": "2026-06-27",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-23T12:26:53.121",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 4,
+  "fields": {
+    "booking_code": "TB91CCFD",
+    "customer_name": "hero",
+    "mobile": "1230987654",
+    "email": "hrero@gmail.com",
+    "booking_date": "2026-06-28",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-23T15:24:20.270",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 6,
+  "fields": {
+    "booking_code": "TBDEFAF3",
+    "customer_name": "ew",
+    "mobile": "1234",
+    "email": "sa@gmail.com",
+    "booking_date": "2026-06-25",
+    "total_amount": "3000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-23T20:13:51.692",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 7,
+  "fields": {
+    "booking_code": "TB5D1D25",
+    "customer_name": "dsa",
+    "mobile": "123456",
+    "email": "sas@gmail.com",
+    "booking_date": "2026-06-28",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-24T07:31:04.086",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 9,
+  "fields": {
+    "booking_code": "TB2082F0",
+    "customer_name": "asdf",
+    "mobile": "1234509876",
+    "email": "dsa@gmail.com",
+    "booking_date": "2026-06-25",
+    "total_amount": "2800.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-24T08:09:31.085",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 10,
+  "fields": {
+    "booking_code": "TBE9745F",
+    "customer_name": "Sahil Gadkari",
+    "mobile": "0987654312",
+    "email": "sahil@gmail.com",
+    "booking_date": "2026-06-27",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-24T19:18:03.348",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 11,
+  "fields": {
+    "booking_code": "TB600D87",
+    "customer_name": "fds",
+    "mobile": "8900000056",
+    "email": "asd@gmail.com",
+    "booking_date": "2026-07-01",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-24T19:26:51.745",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 12,
+  "fields": {
+    "booking_code": "TB05D476",
+    "customer_name": "asd",
+    "mobile": "1234567098",
+    "email": "asd@gmail.com",
+    "booking_date": "2026-06-28",
+    "total_amount": "1800.00",
+    "status": "Cancelled",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-25T07:17:06.858",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 13,
+  "fields": {
+    "booking_code": "TB9AFFFF",
+    "customer_name": "mnb",
+    "mobile": "6543217890",
+    "email": "mnb@gmail.com",
+    "booking_date": "2026-06-28",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-25T07:28:04.844",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 14,
+  "fields": {
+    "booking_code": "",
+    "customer_name": "sahil",
+    "mobile": "1234567891",
+    "email": "demo@gmail.com",
+    "booking_date": "2026-07-01",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-29T05:03:23.309",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 20,
+  "fields": {
+    "booking_code": "DTDB1DE2",
+    "customer_name": "duo",
+    "mobile": "1233211234",
+    "email": "duo@gmail.com",
+    "booking_date": "2026-07-01",
+    "total_amount": "2800.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-29T06:07:21.754",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 21,
+  "fields": {
+    "booking_code": "DTF1FB55",
+    "customer_name": "mnb",
+    "mobile": "1212121212",
+    "email": "mnb2@gmail.com",
+    "booking_date": "2026-07-01",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-29T06:10:49.164",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 22,
+  "fields": {
+    "booking_code": "DTD219AF",
+    "customer_name": "zxc",
+    "mobile": "9898989898",
+    "email": "zxc@gmail.com",
+    "booking_date": "2026-07-01",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-29T06:40:56.719",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 23,
+  "fields": {
+    "booking_code": "DT8099EC",
+    "customer_name": "rew",
+    "mobile": "1221212121",
+    "email": "asd@gmail.com",
+    "booking_date": "2026-07-01",
+    "total_amount": "1000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-29T07:00:41.808",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 24,
+  "fields": {
+    "booking_code": "DT069452",
+    "customer_name": "asdf",
+    "mobile": "5345454545",
+    "email": "gfds@gmail.com",
+    "booking_date": "2026-07-01",
+    "total_amount": "1000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-29T12:45:02.532",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 25,
+  "fields": {
+    "booking_code": "DT92CC1C",
+    "customer_name": "xfdd",
+    "mobile": "1232123212",
+    "email": "zds@gmail.com",
+    "booking_date": "2026-06-30",
+    "total_amount": "1000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-29T12:46:17.717",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 26,
+  "fields": {
+    "booking_code": "DT83B812",
+    "customer_name": "asd",
+    "mobile": "6556565434",
+    "email": "sdcf@gmail.com",
+    "booking_date": "2026-07-02",
+    "total_amount": "800.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-29T12:55:33.824",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 27,
+  "fields": {
+    "booking_code": "DT337965",
+    "customer_name": "asdf",
+    "mobile": "1254321234",
+    "email": "asdfg@gmail.com",
+    "booking_date": "2026-06-30",
+    "total_amount": "1800.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-06-30T17:22:35.058",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 28,
+  "fields": {
+    "booking_code": "DT1BEE94",
+    "customer_name": "sa",
+    "mobile": "0909090909",
+    "email": "sa09@gmail.com",
+    "booking_date": "2026-07-03",
+    "total_amount": "800.00",
+    "status": "Cancelled",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-07-03T10:54:40.967",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 29,
+  "fields": {
+    "booking_code": "DT98A90E",
+    "customer_name": "Sahil Rajendra Gadkari",
+    "mobile": "9322605245",
+    "email": "2122sahilgadkari@gmail.com",
+    "booking_date": "2026-07-11",
+    "total_amount": "2000.00",
+    "status": "Cancelled",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-07-03T17:23:13.171",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 30,
+  "fields": {
+    "booking_code": "DTBFB341",
+    "customer_name": "hqvshwkjdh",
+    "mobile": "1234567890",
+    "email": "as@gmail.com",
+    "booking_date": "2026-07-11",
+    "total_amount": "2000.00",
+    "status": "Cancelled",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-07-04T13:46:19.140",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 31,
+  "fields": {
+    "booking_code": "DTEC9345",
+    "customer_name": "sourbha",
+    "mobile": "2345678123",
+    "email": "gfd@gmail.com",
+    "booking_date": "2026-07-11",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-07-04T18:57:42.153",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 32,
+  "fields": {
+    "booking_code": "DT22C397",
+    "customer_name": "zxcv",
+    "mobile": "1234554333",
+    "email": "dsa@gmail.com",
+    "booking_date": "2026-07-12",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-07-10T16:51:17.457",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 33,
+  "fields": {
+    "booking_code": "DT04F5CE",
+    "customer_name": "asd",
+    "mobile": "1234567890",
+    "email": "asd12@gmail.com",
+    "booking_date": "2026-08-02",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-08-01T17:35:35.310",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 34,
+  "fields": {
+    "booking_code": "DT9C9D2A",
+    "customer_name": "mnb",
+    "mobile": "0909090909",
+    "email": "mnb@gmail.com",
+    "booking_date": "2026-08-07",
+    "total_amount": "2000.00",
+    "status": "Completed",
+    "payment_id": null,
+    "order_id": null,
+    "created_on": "2026-08-06T16:40:30.075",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 35,
+  "fields": {
+    "booking_code": "DT6C31A2",
+    "customer_name": "demo",
+    "mobile": "1212121212",
+    "email": "demo12@gmail.com",
+    "booking_date": "2026-08-08",
+    "total_amount": "1.00",
+    "status": "Completed",
+    "payment_id": "pay_TMrhL4VeQELqbm",
+    "order_id": "order_TMrgBueo0CAWG3",
+    "created_on": "2026-08-07T17:05:16.513",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 36,
+  "fields": {
+    "booking_code": "DTCF55A7",
+    "customer_name": "aa",
+    "mobile": "1111111111",
+    "email": "aa@gmail.com",
+    "booking_date": "2026-08-14",
+    "total_amount": "1.00",
+    "status": "Completed",
+    "payment_id": "pay_TNz0xFF5zzpTzQ",
+    "order_id": "order_TNz0jDSJS0X8MN",
+    "created_on": "2026-08-10T12:53:40.692",
+    "payment_status": "Pending",
+    "payment_method": null,
+    "transaction_id": null,
+    "payment_date": null
+  }
+},
+{
+  "model": "bookings.booking",
+  "pk": 37,
+  "fields": {
+    "booking_code": "DT0247B1",
+    "customer_name": "Sahil Rajendra Gadkari",
+    "mobile": "9322605245",
+    "email": "2122sahilgadkari@gmail.com",
+    "booking_date": "2026-09-01",
+    "total_amount": "1.00",
+    "status": "Completed",
+    "payment_id": "pay_TV8BZ4jBtFQZOg",
+    "order_id": "order_TV8BGimexPwm7O",
+    "created_on": "2026-08-28T14:25:00.342",
+    "payment_status": "Paid",
+    "payment_method": "UPI",
+    "transaction_id": "pay_TV8BZ4jBtFQZOg",
+    "payment_date": "2026-08-28T14:25:00.342"
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 3,
+  "fields": {
+    "booking": 2,
+    "slot": 14
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 4,
+  "fields": {
+    "booking": 2,
+    "slot": 15
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 5,
+  "fields": {
+    "booking": 2,
+    "slot": 16
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 6,
+  "fields": {
+    "booking": 3,
+    "slot": 21
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 7,
+  "fields": {
+    "booking": 3,
+    "slot": 20
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 8,
+  "fields": {
+    "booking": 4,
+    "slot": 18
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 9,
+  "fields": {
+    "booking": 4,
+    "slot": 20
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 11,
+  "fields": {
+    "booking": 6,
+    "slot": 24
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 12,
+  "fields": {
+    "booking": 6,
+    "slot": 23
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 13,
+  "fields": {
+    "booking": 6,
+    "slot": 22
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 14,
+  "fields": {
+    "booking": 7,
+    "slot": 21
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 15,
+  "fields": {
+    "booking": 7,
+    "slot": 22
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 17,
+  "fields": {
+    "booking": 9,
+    "slot": 17
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 18,
+  "fields": {
+    "booking": 9,
+    "slot": 19
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 19,
+  "fields": {
+    "booking": 9,
+    "slot": 18
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 20,
+  "fields": {
+    "booking": 10,
+    "slot": 22
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 21,
+  "fields": {
+    "booking": 10,
+    "slot": 23
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 22,
+  "fields": {
+    "booking": 11,
+    "slot": 21
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 23,
+  "fields": {
+    "booking": 11,
+    "slot": 20
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 26,
+  "fields": {
+    "booking": 13,
+    "slot": 24
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 27,
+  "fields": {
+    "booking": 13,
+    "slot": 23
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 28,
+  "fields": {
+    "booking": 14,
+    "slot": 22
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 29,
+  "fields": {
+    "booking": 14,
+    "slot": 23
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 30,
+  "fields": {
+    "booking": 20,
+    "slot": 18
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 31,
+  "fields": {
+    "booking": 20,
+    "slot": 17
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 32,
+  "fields": {
+    "booking": 20,
+    "slot": 19
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 33,
+  "fields": {
+    "booking": 21,
+    "slot": 24
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 34,
+  "fields": {
+    "booking": 21,
+    "slot": 1
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 35,
+  "fields": {
+    "booking": 22,
+    "slot": 2
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 36,
+  "fields": {
+    "booking": 22,
+    "slot": 3
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 37,
+  "fields": {
+    "booking": 23,
+    "slot": 4
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 38,
+  "fields": {
+    "booking": 24,
+    "slot": 5
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 39,
+  "fields": {
+    "booking": 25,
+    "slot": 1
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 40,
+  "fields": {
+    "booking": 26,
+    "slot": 17
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 41,
+  "fields": {
+    "booking": 27,
+    "slot": 2
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 42,
+  "fields": {
+    "booking": 27,
+    "slot": 3
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 48,
+  "fields": {
+    "booking": 31,
+    "slot": 20
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 49,
+  "fields": {
+    "booking": 31,
+    "slot": 19
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 50,
+  "fields": {
+    "booking": 32,
+    "slot": 1
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 51,
+  "fields": {
+    "booking": 32,
+    "slot": 2
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 52,
+  "fields": {
+    "booking": 33,
+    "slot": 2
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 53,
+  "fields": {
+    "booking": 33,
+    "slot": 4
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 54,
+  "fields": {
+    "booking": 34,
+    "slot": 1
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 55,
+  "fields": {
+    "booking": 34,
+    "slot": 2
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 56,
+  "fields": {
+    "booking": 35,
+    "slot": 1
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 57,
+  "fields": {
+    "booking": 36,
+    "slot": 3
+  }
+},
+{
+  "model": "bookings.bookingslot",
+  "pk": 58,
+  "fields": {
+    "booking": 37,
+    "slot": 24
+  }
+},
+{
+  "model": "settings.turfsettings",
+  "pk": 1,
+  "fields": {
+    "day_price": "1.00",
+    "night_price": "1.00",
+    "holiday_from": "2026-08-27",
+    "holiday_to": "2026-08-29",
+    "holiday_reason": "Due to tournament the turf will be closed.",
+    "updated_on": "2026-08-29T12:50:28.263"
+  }
+}
+]

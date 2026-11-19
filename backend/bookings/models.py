@@ -30,6 +30,13 @@ class Booking(models.Model):
     ("Net Banking", "Net Banking"),
 ]
     
+    turf = models.ForeignKey(
+        "turf.Turf",
+        on_delete=models.CASCADE,
+        related_name="bookings",
+        null=True,
+        blank=True
+    )
 
     booking_code = models.CharField(
         max_length=20,

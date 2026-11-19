@@ -1,64 +1,76 @@
-import { useEffect, useState } from "react";
-import API from "../services/api";  
+import { useEffect, useState, useMemo } from "react";
+import { useTurf } from "../context/TurfContext";
 
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import TurfListSection from "../components/TurfListSection";
 import Facilities from "../components/Facilities";
 import About from "../components/About";
 import Gallery from "../components/Gallery";
-import Pricing from "../components/Pricing";
 import ContactCTA from "../components/ContactCTA";
 import Footer from "../components/Footer";
-import Announcement from "../components/Announcement";
 
 function Home() {
-
-  const [turf, setTurf] = useState(null);
+  const { turfs, selectedTurf, setSelectedTurfId, loading, selectedCity } = useTurf();
+  const [activeTurf, setActiveTurf] = useState(null);
 
   useEffect(() => {
+    if (selectedTurf) {
+      setActiveTurf(selectedTurf);
+    } else if (turfs && turfs.length > 0) {
+      setActiveTurf(turfs[0]);
+    }
+  }, [selectedTurf, turfs]);
 
-    const loadTurf = async () => {
-
-      try {
-
-        const response = await API.get("turf/");
-
-        setTurf(response.data);
-
-      } catch (error) {
-
-        console.log("Failed to load turf:", error);
-
+  // Filter turfs based on active city selection
+  const filteredTurfs = useMemo(() => {
+    if (!selectedCity) return turfs;
+    const target = selectedCity.trim().toLowerCase();
+    return turfs.filter((t) => {
+      if (t.city && t.city.trim().toLowerCase() === target) {
+        return true;
       }
+      if (t.location) {
+        const cityPart = t.location.split(/[,/]/)[0].trim().toLowerCase();
+        return cityPart === target || t.location.toLowerCase().includes(target);
+      }
+      return false;
+    });
+  }, [turfs, selectedCity]);
 
-    };
+  const handleSelectTurf = (turfId) => {
+    setSelectedTurfId(turfId);
+    const found = turfs.find((t) => t.id === turfId);
+    if (found) {
+      setActiveTurf(found);
+    }
+  };
 
-    loadTurf();
-
-  }, []);
-  
   return (
-  <>
-    <Navbar turf={turf} />
+    <>
+      <Navbar turf={activeTurf} />
 
-    <Announcement />
+      <Hero turf={activeTurf} />
 
-    <Hero turf={turf} />
+      {/* Multi-Turf Selection Section with City Filter */}
+      <TurfListSection
+        turfs={filteredTurfs}
+        loading={loading}
+        onSelectTurf={handleSelectTurf}
+      />
 
-    <Facilities />
+      <Facilities turf={activeTurf} />
 
-    <About turf={turf} />
+      <About turf={activeTurf} />
 
-    <Gallery turf={turf} />
+      {/* Multi-Venue Common Photo Gallery */}
+      <Gallery />
 
-    <Pricing turf={turf} />
+      <ContactCTA turf={activeTurf} />
 
-    <ContactCTA turf={turf} />
-
-    <Footer turf={turf} />
-  </>
-);
-
+      <Footer turf={activeTurf} />
+    </>
+  );
 }
 
 export default Home;

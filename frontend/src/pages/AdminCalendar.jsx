@@ -10,6 +10,7 @@ import {
 
 import API from "../services/api";
 import AdminLayout from "../components/AdminLayout";
+import { useTurf } from "../context/TurfContext";
 
 
 function AdminCalendar() {
@@ -26,6 +27,16 @@ function AdminCalendar() {
   // ==========================================
   // STATE
   // ==========================================
+
+  const { turfs, selectedTurfId } = useTurf();
+  const [calendarTurfId, setCalendarTurfId] = useState(selectedTurfId || "");
+  const [currentTurfInfo, setCurrentTurfInfo] = useState(null);
+
+  useEffect(() => {
+    if (selectedTurfId) {
+      setCalendarTurfId(selectedTurfId);
+    }
+  }, [selectedTurfId]);
 
   const [selectedDate, setSelectedDate] =
     useState(today);
@@ -96,32 +107,32 @@ function AdminCalendar() {
 
       setLoading(true);
 
+      let url = `calendar/?date=${selectedDate}`;
+      if (calendarTurfId) {
+        url += `&turf_id=${calendarTurfId}`;
+      }
 
-      const response =
-        await API.get(
-          `calendar/?date=${selectedDate}`
-        );
-
+      const response = await API.get(url);
 
       setBookedSlots(
         response.data.booked_slots || []
       );
 
-
       setAvailableSlots(
         response.data.available_slots || []
       );
-
 
       setClosedSlots(
         response.data.closed_slots || []
       );
 
-
       setClosure(
         response.data.closure || null
       );
 
+      if (response.data.turf) {
+        setCurrentTurfInfo(response.data.turf);
+      }
 
     } catch (error) {
 
@@ -140,14 +151,14 @@ function AdminCalendar() {
 
 
   // ==========================================
-  // DATE CHANGE
+  // DATE / TURF CHANGE
   // ==========================================
 
   useEffect(() => {
 
     loadCalendar();
 
-  }, [selectedDate]);
+  }, [selectedDate, calendarTurfId]);
 
 
   // ==========================================
@@ -162,49 +173,42 @@ function AdminCalendar() {
           HEADER
       ======================================= */}
 
-      <div className="mb-8">
+      <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-        <h1
-          className="
-          text-4xl
-          font-bold
-          "
-        >
+        <div>
+          <h1
+            className="
+            text-4xl
+            font-bold
+            "
+          >
+            Slot Calendar
+          </h1>
 
-          Slot Calendar
+          <p
+            className="
+            text-gray-500
+            mt-2
+            "
+          >
+            Inspect booked, available, and closed slots for any venue
+          </p>
+        </div>
 
-        </h1>
-
-
-        <p
-          className="
-          text-gray-500
-          mt-2
-          "
-        >
-
-          View booked, available and
-          closed slots
-
-        </p>
-
-
-        <div
-          className="
-          inline-block
-          mt-4
-          bg-green-100
-          text-green-700
-          px-4
-          py-2
-          rounded-full
-          text-sm
-          font-medium
-          "
-        >
-
-          Selected Date: {selectedDate}
-
+        {/* Venue Selector */}
+        <div className="flex items-center gap-3 bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
+          <span className="text-xs font-bold text-gray-600">Select Venue:</span>
+          <select
+            value={calendarTurfId}
+            onChange={(e) => setCalendarTurfId(e.target.value)}
+            className="bg-gray-50 border border-gray-300 text-gray-900 px-3 py-1.5 rounded-xl text-xs font-semibold outline-none focus:border-green-600 cursor-pointer"
+          >
+            {turfs.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.name} ({t.location})
+              </option>
+            ))}
+          </select>
         </div>
 
       </div>

@@ -4,8 +4,12 @@ import {
   FaClock,
   FaShieldAlt,
 } from "react-icons/fa";
+import { useTurf } from "../context/TurfContext";
 
 function About({ turf }) {
+  const { websiteSettings } = useTurf();
+  const displayName = websiteSettings?.site_name || turf?.name || "YourTurf";
+
   return (
     <section
       id="about"
@@ -17,7 +21,7 @@ function About({ turf }) {
         <div className="text-center mb-16">
 
           <span className="text-green-600 font-semibold uppercase tracking-wider">
-            About {turf?.name || "Dream Turf"} Turf
+            About {displayName}
           </span>
 
           <h2 className="text-4xl md:text-5xl font-bold mt-4">
@@ -25,7 +29,7 @@ function About({ turf }) {
           </h2>
 
           <p className="mt-6 text-gray-600 max-w-3xl mx-auto">
-            {turf?.name || "Dream Turf"} Turf offers a premium football
+            {displayName} offers a premium football
             and cricket experience with modern
             facilities, flood lights, online booking,
             and a professionally maintained playing
@@ -42,10 +46,11 @@ function About({ turf }) {
 
             <img
               src={
+                websiteSettings?.about_image ||
                 turf?.about_image ||
                 "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80"
               }
-              alt={turf?.name || "Dream Turf"}
+              alt={displayName}
               className="
                 rounded-3xl
                 shadow-2xl
@@ -67,7 +72,7 @@ function About({ turf }) {
             <p className="text-gray-600 mb-8">
               Whether you're playing with friends,
               organizing tournaments, or practicing
-              with your team, {turf?.name || "Dream Turf"} Turf provides
+              with your team, {displayName} provides
               the ideal environment for every match.
             </p>
 

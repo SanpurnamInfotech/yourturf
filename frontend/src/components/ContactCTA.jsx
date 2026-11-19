@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import {
-  FaPhoneAlt,
-  FaClock,
-  FaMapMarkerAlt,
-} from "react-icons/fa";
+import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { useTurf } from "../context/TurfContext";
 
 function ContactCTA({ turf }) {
+  const { websiteSettings } = useTurf();
+  const phone = websiteSettings?.contact_phone || turf?.phone || "1234567890";
+  const email = websiteSettings?.contact_email || turf?.email || "support@yourturf.com";
+
   return (
     <section
       id="contact"
@@ -18,7 +19,6 @@ function ContactCTA({ turf }) {
       "
     >
       <div className="max-w-7xl mx-auto px-6">
-
         <div
           className="
           grid
@@ -27,10 +27,8 @@ function ContactCTA({ turf }) {
           items-center
           "
         >
-
           {/* Left Side */}
           <div>
-
             <span
               className="
               uppercase
@@ -61,9 +59,8 @@ function ContactCTA({ turf }) {
               max-w-xl
               "
             >
-              Book your turf slot today and enjoy
-              a premium football & cricket experience
-              with your friends and team.
+              Book your turf slot today and enjoy a premium football & cricket
+              experience with your friends and team.
             </p>
 
             {/* CTA Buttons */}
@@ -76,9 +73,8 @@ function ContactCTA({ turf }) {
               mt-10
               "
             >
-
               <a
-                href={`tel:${turf?.phone || ""}`}
+                href={`tel:${phone}`}
                 className="
                 bg-white
                 text-green-700
@@ -111,12 +107,10 @@ function ContactCTA({ turf }) {
               >
                 Book Turf
               </Link>
-
             </div>
-
           </div>
 
-          {/* Right Side */}
+          {/* Right Side - Information Box */}
           <div
             className="
             bg-white/10
@@ -126,7 +120,6 @@ function ContactCTA({ turf }) {
             shadow-2xl
             "
           >
-
             <h3
               className="
               text-2xl
@@ -134,94 +127,48 @@ function ContactCTA({ turf }) {
               mb-8
               "
             >
-              Turf Information
+              Contact Information
             </h3>
 
             <div className="space-y-6">
-
-              <div className="flex gap-4">
-
-                <FaPhoneAlt
-                  size={22}
-                  className="mt-1"
-                />
-
+              {/* 1. Phone Number */}
+              <div className="flex gap-4 items-center">
+                <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center flex-shrink-0">
+                  <FaPhoneAlt size={20} />
+                </div>
                 <div>
-
-                  <h4 className="font-semibold">
+                  <h4 className="text-sm font-semibold text-green-100">
                     Phone Number
                   </h4>
-
-                  <p>
-                   {turf?.phone || "Contact Us"}
-                  </p>
-
+                  <a
+                    href={`tel:${phone}`}
+                    className="text-lg font-bold hover:underline"
+                  >
+                    {phone}
+                  </a>
                 </div>
-
               </div>
 
-              <div className="flex gap-4">
-
-                <FaClock
-                  size={22}
-                  className="mt-1"
-                />
-
+              {/* 2. Email Address */}
+              <div className="flex gap-4 items-center">
+                <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center flex-shrink-0">
+                  <FaEnvelope size={20} />
+                </div>
                 <div>
-
-                  <h4 className="font-semibold">
-                    Opening Hours
+                  <h4 className="text-sm font-semibold text-green-100">
+                    Email
                   </h4>
-
-                  <p>
-                    24*7 Open
-                  </p>
-
+                  <a
+                    href={`mailto:${email}`}
+                    className="text-lg font-bold hover:underline break-all"
+                  >
+                    {email}
+                  </a>
                 </div>
-
               </div>
-
-              <div className="flex gap-4">
-
-                <FaMapMarkerAlt
-                  size={22}
-                  className="mt-1"
-                />
-
-                <div>
-
-                  <h4 className="font-semibold">
-                    Location
-                  </h4>
-
-                  <p>
-                    {turf?.location || "Location not available"}
-                  </p>
-
-                </div>
-
-              </div>
-
             </div>
-
-            {/* Small Notice */}
-            <div
-              className="
-              mt-8
-              bg-green-500/20
-              p-4
-              rounded-xl
-              "
-            >
-              ⚽ Online booking available for all
-              daily slots. Secure your preferred
-              time before it gets booked.
-            </div>
-
           </div>
-
         </div>
-
       </div>
     </section>
   );
