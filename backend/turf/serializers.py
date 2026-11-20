@@ -68,11 +68,35 @@ class TurfSerializer(serializers.ModelSerializer):
 class TurfImageSerializer(serializers.ModelSerializer):
 
     image = serializers.SerializerMethodField()
-    turf_name = serializers.CharField(source="turf.name", read_only=True)
+    turf_name = serializers.SerializerMethodField()
+    turf_city = serializers.SerializerMethodField()
+    turf_location = serializers.SerializerMethodField()
 
     class Meta:
         model = TurfImage
-        fields = ["id", "turf", "turf_name", "image", "uploaded_on"]
+        fields = [
+            "id",
+            "turf",
+            "turf_name",
+            "turf_city",
+            "turf_location",
+            "image",
+            "uploaded_on",
+        ]
+
+    def get_turf_name(self, obj):
+        return obj.turf.name if obj.turf else "General"
+
+    def get_turf_city(self, obj):
+        if obj.turf:
+            if obj.turf.city:
+                return obj.turf.city
+            if obj.turf.location:
+                return obj.turf.location.split(",")[0].strip()
+        return ""
+
+    def get_turf_location(self, obj):
+        return obj.turf.location if obj.turf else ""
 
     def get_image(self, obj):
 

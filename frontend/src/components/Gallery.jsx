@@ -11,20 +11,20 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 function Gallery() {
-  const { turfs } = useTurf();
+  const { turfs, websiteSettings } = useTurf();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     loadAllImages();
-  }, [turfs]);
+  }, [turfs, websiteSettings]);
 
   const loadAllImages = async () => {
     try {
       setLoading(true);
 
-      // 1. Fetch all gallery images from existing API
+      // 1. Fetch all gallery images from existing API (TurfImage model)
       let galleryList = [];
       try {
         const response = await API.get("gallery/");
@@ -44,10 +44,6 @@ function Gallery() {
         }
       }
 
-      // 3. Deduplicate and combine images from all turfs
-      const seenUrls = new Set();
-      const combined = [];
-
       const normalizeUrl = (url) => {
         if (!url) return "";
         try {
@@ -58,56 +54,64 @@ function Gallery() {
         }
       };
 
-      // Add uploaded gallery images
+      // 3. Build an exclusion set for images that must NEVER appear in the public gallery:
+      //    - Main Landing Page / Hero Image
+      //    - About Page Image
+      //    - Website Logo
+      //    - Turf Cover Image or Thumbnail (main_image)
+      //    - Turf About Section Image (about_image)
+      const excludedUrls = new Set();
+      if (websiteSettings?.logo) excludedUrls.add(normalizeUrl(websiteSettings.logo));
+      if (websiteSettings?.hero_image) excludedUrls.add(normalizeUrl(websiteSettings.hero_image));
+      if (websiteSettings?.about_image) excludedUrls.add(normalizeUrl(websiteSettings.about_image));
+
+      if (Array.isArray(turfsList)) {
+        turfsList.forEach((t) => {
+          if (t.main_image) excludedUrls.add(normalizeUrl(t.main_image));
+          if (t.about_image) excludedUrls.add(normalizeUrl(t.about_image));
+        });
+      }
+
+      // 4. Collect ONLY images uploaded specifically through the Turf Gallery Images section
+      const seenUrls = new Set();
+      const galleryOnly = [];
+
       galleryList.forEach((item) => {
         if (item.image) {
           const key = normalizeUrl(item.image);
+
+          // Strictly filter out any hero, about, logo, or turf cover/thumbnail images
+          if (excludedUrls.has(key)) {
+            return;
+          }
+
           if (!seenUrls.has(key)) {
             seenUrls.add(key);
-            const matchedTurf = turfsList.find(
+            const matchedTurf = (turfsList || []).find(
               (t) => String(t.id) === String(item.turf)
             );
-            combined.push({
+
+            const turfName =
+              item.turf_name || matchedTurf?.name || "YourTurf";
+            const turfCity =
+              item.turf_city ||
+              matchedTurf?.city ||
+              (matchedTurf?.location ? matchedTurf.location.split(",")[0].trim() : "");
+            const turfLocation =
+              item.turf_location || matchedTurf?.location || "";
+
+            galleryOnly.push({
               id: `gallery-${item.id}`,
               image: item.image,
-              turf_name: item.turf_name || matchedTurf?.name || "Premium",
-              location: matchedTurf?.location || "Maharashtra",
+              turf_name: turfName,
+              city: turfCity,
+              location: turfLocation,
             });
           }
         }
       });
 
-      // Ensure every active turf's main_image and about_image are also included in the common gallery
-      if (Array.isArray(turfsList)) {
-        turfsList.forEach((t) => {
-          if (t.main_image) {
-            const key = normalizeUrl(t.main_image);
-            if (!seenUrls.has(key)) {
-              seenUrls.add(key);
-              combined.push({
-                id: `turf-${t.id}-main`,
-                image: t.main_image,
-                turf_name: t.name,
-                location: t.location || "Maharashtra",
-              });
-            }
-          }
-          if (t.about_image) {
-            const key = normalizeUrl(t.about_image);
-            if (!seenUrls.has(key)) {
-              seenUrls.add(key);
-              combined.push({
-                id: `turf-${t.id}-about`,
-                image: t.about_image,
-                turf_name: t.name,
-                location: t.location || "Maharashtra",
-              });
-            }
-          }
-        });
-      }
-
-      setImages(combined);
+      setImages(galleryOnly);
     } catch (error) {
       console.error("Error building common gallery:", error);
     } finally {
@@ -200,10 +204,10 @@ function Gallery() {
                   </div>
 
                   {/* Top-Right City/Location Tag */}
-                  {img.location && (
-                    <div className="absolute top-4 right-4 z-10 bg-green-500 text-black px-2.5 py-1 rounded-full text-[11px] font-bold flex items-center gap-1 shadow-md">
+                  {(img.city || img.location) && (
+                    <div className="absolute top-4 right-4 z-10 bg-green-500 text-black px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-md">
                       <FaMapMarkerAlt size={10} />
-                      <span>{img.location.split(",")[0]}</span>
+                      <span>{img.city || img.location.split(",")[0].trim()}</span>
                     </div>
                   )}
 
@@ -217,7 +221,11 @@ function Gallery() {
                     </h3>
                     <p className="text-green-400 mt-1 text-sm font-semibold flex items-center gap-1.5">
                       <FaMapMarkerAlt />
-                      <span>{img.location || "Premium Sports Ground"}</span>
+                      <span>
+                        {img.city
+                          ? `${img.city}${img.location && img.location !== img.city ? ` • ${img.location}` : ""}`
+                          : img.location || "Sports Ground"}
+                      </span>
                     </p>
                     <span className="inline-block mt-2 text-xs text-gray-300 font-medium">
                       Click to view full photo &rarr;
@@ -246,10 +254,14 @@ function Gallery() {
                   <span className="text-white font-bold text-base">
                     {selectedImage.turf_name} Turf
                   </span>
-                  {selectedImage.location && (
+                  {(selectedImage.city || selectedImage.location) && (
                     <span className="text-xs text-gray-400 ml-2 border-l border-gray-700 pl-2 flex items-center gap-1">
                       <FaMapMarkerAlt className="text-green-400" />
-                      {selectedImage.location}
+                      <span>
+                        {selectedImage.city
+                          ? `${selectedImage.city}${selectedImage.location && selectedImage.location !== selectedImage.city ? `, ${selectedImage.location}` : ""}`
+                          : selectedImage.location}
+                      </span>
                     </span>
                   )}
                 </div>
